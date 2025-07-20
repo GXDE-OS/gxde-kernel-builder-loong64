@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # install dep
-echo "deb-src [trusted=true] https://mirrors.kernel.org/deepin/beige/ crimson main commercial community" | tee /etc/apt/sources.list.d/deepin-sources.list
-sudo apt update
-sudo apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git lsb vim libelf-dev
-sudo apt install -y gcc-loongarch64-linux-gnu
-sudo apt build-dep -y linux
+echo "deb-src [trusted=true] https://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware" | tee /etc/apt/sources.list.d/deepin-sources.list
+apt update
+apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git vim libelf-dev sudo
+apt install -y gcc-loongarch64-linux-gnu
+apt build-dep -y linux
 
 git clone https://github.com/deepin-community/kernel --depth=1 -b linux-6.12.y
 
