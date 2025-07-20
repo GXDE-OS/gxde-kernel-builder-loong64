@@ -12,6 +12,8 @@ cd kernel
 # 删除 .git 目录以避免版本号带 commit
 rm -rf .git
 
+/usr/bin/loongarch64-linux-gnu-gcc --version
+
 make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
 
 scripts/config --undefine CONFIG_DEBUG_INFO
