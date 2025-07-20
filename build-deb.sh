@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # install dep
+apt install deepin-keyring -y
+echo "deb [trusted=true] https://community-packages.deepin.com/deepin/beige/ crimson main community commercial" | tee /etc/apt/sources.list.d/deepin-sources.list
 echo "deb-src [trusted=true] https://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware" | tee /etc/apt/sources.list.d/deepin-sources.list
+dpkg --add-architecture loong64
 apt update
 apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git vim libelf-dev sudo zstd
 apt build-dep -y linux
@@ -20,18 +23,19 @@ fi
 # 删除 .git 目录以避免版本号带 commit
 rm -rf .git
 
-/usr/bin/loongarch64-linux-gnu-gcc --version
+# 用于解决交叉编译缺失 libssl-dev 头文件的问题
+export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu:$C_INCLUDE_PATH
 
 make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
 
-#scripts/config --undefine CONFIG_DEBUG_INFO
-#scripts/config --undefine CONFIG_DEBUG_INFO_DWARF5
-#scripts/config --undefine CONFIG_DEBUG_INFO_COMPRESSED_NONE 
-#scripts/config --undefine CONFIG_PAHOLE_HAS_SPLIT_BTF
-#scripts/config --undefine CONFIG_PAHOLE_HAS_LANG_EXCLUDE
-#scripts/config --undefine CONFIG_GDB_SCRIPTS
+scripts/config --undefine CONFIG_DEBUG_INFO
+scripts/config --undefine CONFIG_DEBUG_INFO_DWARF5
+scripts/config --undefine CONFIG_DEBUG_INFO_COMPRESSED_NONE 
+scripts/config --undefine CONFIG_PAHOLE_HAS_SPLIT_BTF
+scripts/config --undefine CONFIG_PAHOLE_HAS_LANG_EXCLUDE
+scripts/config --undefine CONFIG_GDB_SCRIPTS
 
-#scripts/config --set-val CONFIG_DEBUG_INFO_NONE y
+scripts/config --set-val CONFIG_DEBUG_INFO_NONE y
 
 scripts/config --undefine CONFIG_HAVE_PAGE_SIZE_16KB
 scripts/config --undefine CONFIG_PAGE_SIZE_16KB
