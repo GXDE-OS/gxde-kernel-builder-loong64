@@ -2,7 +2,7 @@
 # install dep
 echo "deb-src [trusted=true] https://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware" | tee /etc/apt/sources.list.d/deepin-sources.list
 apt update
-apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git vim libelf-dev sudo
+apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git vim libelf-dev sudo zstd
 apt build-dep -y linux
 apt install -y gcc-loongarch64-linux-gnu g++-loongarch64-linux-gnu binutils-loongarch64-linux-gnu \
     cpp-loongarch64-linux-gnu
