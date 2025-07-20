@@ -1,0 +1,20 @@
+name: Building Program
+run-name: Building ${{ GITHUB.REPOSITORY }}
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  call-amd64-hetao:
+    uses: GXDE-OS/GXDE/.github/workflows/building-deb-base.yml@master
+    secrets: inherit
+    with:
+      display-name: amd64-hetao
+      arch: amd64
+      rootfs-codename: crimson
+      rootfs-source: https://mirrors.kernel.org/deepin/beige/
+      gxde-codename: hetao
+      gxde-codename-upload: hetao
