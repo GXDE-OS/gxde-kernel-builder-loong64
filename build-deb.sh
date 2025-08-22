@@ -40,6 +40,10 @@ scripts/config --set-val CONFIG_DEBUG_INFO_NONE y
 scripts/config --undefine CONFIG_HAVE_PAGE_SIZE_16KB
 scripts/config --undefine CONFIG_PAGE_SIZE_16KB
 scripts/config --undefine CONFIG_16KB_3LEVEL
+scripts/config --undefine CONFIG_SYSTEM_TRUSTED_KEYRING
+scripts/config --undefine CONFIG_SYSTEM_TRUSTED_KEYS
+scripts/config --undefine CONFIG_MODULE_SIG_KEY
+scripts/config --undefine CONFIG_MODULE_SIG_KEY_TYPE_RSA
 
 scripts/config --set-val CONFIG_PAGE_SHIFT 12
 scripts/config --set-val CONFIG_HAVE_PAGE_SIZE_4KB y
