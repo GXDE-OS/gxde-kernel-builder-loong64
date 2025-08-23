@@ -16,7 +16,7 @@ apt install -y gcc-mips64el-linux-gnuabi64 g++-mips64el-linux-gnuabi64 binutils-
 apt install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu binutils-riscv64-linux-gnu \
     cpp-riscv64-linux-gnu
 
-git clone https://github.com/deepin-community/kernel --depth=1 -b linux-6.6.y
+git clone https://gitee.com/phytium_embedded/phytium-linux-kernel --depth=1 -b linux-6.6
 
 cd kernel
 
@@ -29,27 +29,14 @@ fi
 # 删除 .git 目录以避免版本号带 commit
 rm -rf .git
 
-if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
-    make ARCH=x86 deepin_x86_desktop_defconfig
-fi
-if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
-    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- deepin_arm64_desktop_defconfig
-fi
-if [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
-    make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- deepin_loongson3_desktop_defconfig
-fi
-if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
-    make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
-fi
-if [[ $GXDE_CROSS_ARCH == "riscv64" ]]; then
-    make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- deepin_riscv64_desktop_defconfig
-fi
 
-if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
-    scripts/config --set-str CONFIG_LOCALVERSION "-deepin-loong64-4k-pagesize-gxde-desktop"
+if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
+    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- phytium_defconfig
 else
-    scripts/config --set-str CONFIG_LOCALVERSION "-deepin-$GXDE_CROSS_ARCH-gxde-desktop"
+    exit 1
 fi
+scripts/config --set-str CONFIG_LOCALVERSION "-phytium-embedded-gxde"
+
 
 scripts/config --undefine CONFIG_DEBUG_INFO
 scripts/config --undefine CONFIG_DEBUG_INFO_DWARF5
@@ -60,17 +47,6 @@ scripts/config --undefine CONFIG_GDB_SCRIPTS
 
 scripts/config --set-val CONFIG_DEBUG_INFO_NONE y
 
-# Loongarch 内核使用 4k 分页
-if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
-    scripts/config --undefine CONFIG_HAVE_PAGE_SIZE_16KB
-    scripts/config --undefine CONFIG_PAGE_SIZE_16KB
-    scripts/config --undefine CONFIG_16KB_3LEVEL
-
-    scripts/config --set-val CONFIG_PAGE_SHIFT 12
-    scripts/config --set-val CONFIG_HAVE_PAGE_SIZE_4KB y
-    scripts/config --set-val CONFIG_PAGE_SIZE_4KB y
-    scripts/config --set-val CONFIG_4KB_3LEVEL y
-fi
 scripts/config --undefine CONFIG_SYSTEM_TRUSTED_KEYRING
 scripts/config --undefine CONFIG_SYSTEM_TRUSTED_KEYS
 scripts/config --undefine CONFIG_MODULE_SIG_KEY
@@ -79,7 +55,7 @@ scripts/config --undefine CONFIG_MODULE_SIG_KEY_TYPE_RSA
 
 # build deb packages
 CPU_CORES=$(($(grep -c processor < /proc/cpuinfo)*2))
-env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make DPKG_FLAGS=-d ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- bindeb-pkg -j"$CPU_CORES"
+env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make DPKG_FLAGS=-d ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bindeb-pkg -j"$CPU_CORES"
 
 cd ..
 rm -rf linux-libc-dev*.deb *dbg*.deb
