@@ -2,7 +2,7 @@
 # install dep
 apt install deepin-keyring -y
 echo "deb [trusted=true] https://community-packages.deepin.com/deepin/beige/ crimson main community commercial" | tee /etc/apt/sources.list.d/deepin-sources.list
-echo "deb-src [trusted=true] https://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware" | tee /etc/apt/sources.list.d/deepin-sources.list
+echo "deb-src [trusted=true] http://ftp.us.debian.org/debian/ bookworm main contrib non-free non-free-firmware" | tee /etc/apt/sources.list.d/deepin-sources.list
 dpkg --add-architecture loong64
 apt update
 apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git vim libelf-dev sudo zstd
@@ -16,9 +16,11 @@ apt install -y gcc-mips64el-linux-gnuabi64 g++-mips64el-linux-gnuabi64 binutils-
 apt install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu binutils-riscv64-linux-gnu \
     cpp-riscv64-linux-gnu
 
+git clone https://github.com/GXDE-OS/gxde-kernel --depth=1
 git clone https://gitee.com/phytium_embedded/phytium-linux-kernel --depth=1 -b linux-6.6
 
 cd phytium-linux-kernel
+git apply ../gxde-kernel/patch/*
 
 # 检测 build-version 脚本是否存在
 if [[ ! -f init/build-version ]]; then
