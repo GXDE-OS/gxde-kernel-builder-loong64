@@ -29,6 +29,8 @@ fi
 # 删除 .git 目录以避免版本号带 commit
 rm -rf .git
 
+export DEBEMAIL="gfdgd xi <3025613752@qq.com>"
+
 if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
     make ARCH=x86 deepin_x86_desktop_defconfig
 fi
@@ -79,7 +81,23 @@ scripts/config --undefine CONFIG_MODULE_SIG_KEY_TYPE_RSA
 
 # build deb packages
 CPU_CORES=$(($(grep -c processor < /proc/cpuinfo)*2))
-env DEBEMAIL="gfdgd xi <3025613752@qq.com>" make DPKG_FLAGS=-d ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- bindeb-pkg -j"$CPU_CORES"
+
+if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
+    make ARCH=x86 DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+fi
+if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
+    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+fi
+if [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
+    make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+fi
+if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
+    make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+fi
+if [[ $GXDE_CROSS_ARCH == "riscv64" ]]; then
+    make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+fi
+
 
 cd ..
 rm -rf linux-libc-dev*.deb *dbg*.deb
