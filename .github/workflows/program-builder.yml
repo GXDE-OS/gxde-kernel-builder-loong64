@@ -8,13 +8,6 @@ on:
       - "*"
 
 jobs:
-  call-loong64-hetao-builder:
-    uses: GXDE-OS/GXDE/.github/workflows/building-deb-base.yml@master
+  call:
+    uses: GXDE-OS/GXDE/.github/workflows/building-deb-cross.yml@master
     secrets: inherit
-    with:
-      display-name: loong64-hetao-builder
-      arch: amd64
-      rootfs-codename: crimson
-      rootfs-source: https://mirrors.kernel.org/deepin/beige/
-      gxde-codename: hetao
-      gxde-codename-upload: hetao
