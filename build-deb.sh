@@ -10,7 +10,7 @@ apt build-dep -y linux
 apt install -y gcc-loongarch64-linux-gnu g++-loongarch64-linux-gnu binutils-loongarch64-linux-gnu \
     cpp-loongarch64-linux-gnu
 
-git clone https://github.com/deepin-community/kernel --depth=1 -b linux-6.12.y
+git clone https://github.com/deepin-community/kernel --depth=1 -b linux-6.6.y
 
 cd kernel
 
