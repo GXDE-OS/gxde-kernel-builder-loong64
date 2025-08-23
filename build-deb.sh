@@ -18,7 +18,7 @@ apt install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu binutils-riscv64-linu
 
 git clone https://gitee.com/phytium_embedded/phytium-linux-kernel --depth=1 -b linux-6.6
 
-cd kernel
+cd phytium-linux-kernel
 
 # 检测 build-version 脚本是否存在
 if [[ ! -f init/build-version ]]; then
