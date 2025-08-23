@@ -24,7 +24,7 @@ fi
 rm -rf .git
 
 # 用于解决交叉编译缺失 libssl-dev 头文件的问题
-export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu:$C_INCLUDE_PATH
+#export C_INCLUDE_PATH=/usr/include/x86_64-linux-gnu:$C_INCLUDE_PATH
 
 make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
 
