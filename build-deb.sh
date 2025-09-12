@@ -52,6 +52,9 @@ if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
 else
     scripts/config --set-str CONFIG_LOCALVERSION "-deepin-$GXDE_CROSS_ARCH-gxde-desktop"
 fi
+if [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
+    scripts/config --set-str CONFIG_LOCALVERSION "-deepin-mips64el-4k-pagesize-gxde-desktop"
+fi
 
 scripts/config --undefine CONFIG_DEBUG_INFO
 scripts/config --undefine CONFIG_DEBUG_INFO_DWARF5
@@ -63,7 +66,7 @@ scripts/config --undefine CONFIG_GDB_SCRIPTS
 scripts/config --set-val CONFIG_DEBUG_INFO_NONE y
 
 # Loongarch 内核使用 4k 分页
-if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
+if [[ $GXDE_CROSS_ARCH == "loong64" ]] || [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
     scripts/config --undefine CONFIG_HAVE_PAGE_SIZE_16KB
     scripts/config --undefine CONFIG_PAGE_SIZE_16KB
     scripts/config --undefine CONFIG_16KB_3LEVEL
