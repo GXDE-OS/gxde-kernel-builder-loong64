@@ -50,7 +50,7 @@ fi
 if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
     scripts/config --set-str CONFIG_LOCALVERSION "-deepin-loong64-4k-pagesize-gxde-desktop"
 else
-    scripts/config --set-str CONFIG_LOCALVERSION "-deepin-$GXDE_CROSS_ARCH-gxde-desktop"
+    scripts/config --set-str CONFIG_LOCALVERSION "-$GXDE_CROSS_ARCH-gxde-desktop"
 fi
 
 scripts/config --undefine CONFIG_DEBUG_INFO
