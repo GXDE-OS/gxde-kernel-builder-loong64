@@ -16,7 +16,7 @@ apt install -y gcc-mips64el-linux-gnuabi64 g++-mips64el-linux-gnuabi64 binutils-
 apt install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu binutils-riscv64-linux-gnu \
     cpp-riscv64-linux-gnu
 
-git clone https://github.com/deepin-community/kernel --depth=1 -b linux-6.6.y
+git clone https://github.com/GXDE-OS/kernel-6.6.y --depth=1 -b linux-6.6.y
 
 cd kernel
 
@@ -66,7 +66,7 @@ scripts/config --undefine CONFIG_GDB_SCRIPTS
 scripts/config --set-val CONFIG_DEBUG_INFO_NONE y
 
 # Loongarch 内核使用 4k 分页
-if [[ $GXDE_CROSS_ARCH == "loong64" ]] || [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
+if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
     scripts/config --undefine CONFIG_HAVE_PAGE_SIZE_16KB
     scripts/config --undefine CONFIG_PAGE_SIZE_16KB
     scripts/config --undefine CONFIG_16KB_3LEVEL
