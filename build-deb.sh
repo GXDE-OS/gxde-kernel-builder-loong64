@@ -31,24 +31,27 @@ rm -rf .git
 
 export DEBEMAIL="gfdgd xi <3025613752@qq.com>"
 
+if [[ $GXDE_CROSS_ARCH == "i386" ]]; then
+    make ARCH=x86 i386_defconfig
+fi
 if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
-    make ARCH=x86 deepin_x86_desktop_defconfig
+    make ARCH=x86 x86_64_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
-    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- deepin_arm64_desktop_defconfig
+    exit 1
 fi
 if [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
-    make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- deepin_loongson3_desktop_defconfig
+    make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- loongson3_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
-    make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
+    exit 1
 fi
 if [[ $GXDE_CROSS_ARCH == "riscv64" ]]; then
-    make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- deepin_riscv64_desktop_defconfig
+    make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- defconfig
 fi
 
 if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
-    scripts/config --set-str CONFIG_LOCALVERSION "-deepin-loong64-4k-pagesize-gxde-desktop"
+    scripts/config --set-str CONFIG_LOCALVERSION "-loong64-4k-pagesize-gxde-desktop"
 else
     scripts/config --set-str CONFIG_LOCALVERSION "-$GXDE_CROSS_ARCH-gxde-desktop"
 fi
@@ -82,7 +85,7 @@ scripts/config --undefine CONFIG_MODULE_SIG_KEY_TYPE_RSA
 # build deb packages
 CPU_CORES=$(($(grep -c processor < /proc/cpuinfo)*2))
 
-if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
+if [[ $GXDE_CROSS_ARCH == "amd64" ]] || [[ $GXDE_CROSS_ARCH == "i386" ]]; then
     make ARCH=x86 DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
 fi
 if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
