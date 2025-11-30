@@ -16,7 +16,7 @@ apt install -y gcc-mips64el-linux-gnuabi64 g++-mips64el-linux-gnuabi64 binutils-
 apt install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu binutils-riscv64-linux-gnu \
     cpp-riscv64-linux-gnu
 
-git clone https://github.com/deepin-community/kernel --depth=1 -b linux-6.6.y
+git clone https://github.com/GXDE-OS/kernel --depth=1 -b linux-6.1.y
 
 cd kernel
 
