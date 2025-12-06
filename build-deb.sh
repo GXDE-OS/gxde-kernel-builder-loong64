@@ -52,6 +52,8 @@ if [[ $GXDE_CROSS_ARCH == "riscv64" ]]; then
     make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- deepin_riscv64_desktop_defconfig
 fi
 
+scripts/config --set-str CONFIG_LOCALVERSION "-$GXDE_CROSS_ARCH-gxde-desktop"
+
 scripts/config --undefine CONFIG_DEBUG_INFO
 scripts/config --undefine CONFIG_DEBUG_INFO_DWARF5
 scripts/config --undefine CONFIG_DEBUG_INFO_COMPRESSED_NONE 
