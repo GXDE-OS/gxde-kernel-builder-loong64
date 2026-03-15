@@ -18,7 +18,7 @@ apt install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu binutils-riscv64-linu
 apt install -y gcc-i686-linux-gnu g++-i686-linux-gnu binutils-i686-linux-gnu \
     cpp-i686-linux-gnu
 
-git clone https://github.com/GXDE-OS/kernel --depth=1 -b linux-6.6.y
+git clone https://github.com/GXDE-OS/kernel --depth=1 -b linux-6.18.y 
 
 cd kernel
 
@@ -33,23 +33,14 @@ rm -rf .git
 
 export DEBEMAIL="gfdgd xi <3025613752@qq.com>"
 
-if [[ $GXDE_CROSS_ARCH == "i386" ]]; then
-    make ARCH=arm64 CROSS_COMPILE=i686-linux-gnu- deepin_x86_desktop_defconfig
-fi
 if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
     make ARCH=x86 deepin_x86_desktop_defconfig
-fi
-if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
-    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- deepin_arm64_desktop_defconfig
-fi
-if [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
-    make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- deepin_loongson3_desktop_defconfig
-fi
-if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
-    make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
-fi
-if [[ $GXDE_CROSS_ARCH == "riscv64" ]]; then
-    make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- deepin_riscv64_desktop_defconfig
+else
+    if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
+        make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- deepin_arm64_desktop_defconfig
+    else
+        exit
+    fi
 fi
 
 scripts/config --set-str CONFIG_LOCALVERSION "-$GXDE_CROSS_ARCH-gxde-desktop"
