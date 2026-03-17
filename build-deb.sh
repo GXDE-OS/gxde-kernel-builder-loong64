@@ -33,13 +33,14 @@ rm -rf .git
 
 export DEBEMAIL="gfdgd xi <3025613752@qq.com>"
 
+GXDE_CROSS_ARCH=$(dpkg --print-architecture)
 if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
     make ARCH=x86 deepin_x86_desktop_defconfig
 else
     if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
         make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- deepin_arm64_desktop_defconfig
     else
-        exit
+        exit 0
     fi
 fi
 
