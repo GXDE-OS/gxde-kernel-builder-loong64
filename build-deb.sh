@@ -4,6 +4,7 @@ apt install deepin-keyring -y
 echo "deb [trusted=true] https://community-packages.deepin.com/deepin/beige/ crimson main community commercial" | tee /etc/apt/sources.list.d/deepin-sources.list
 echo "deb-src [trusted=true] http://ftp.us.debian.org/debian/ bookworm main contrib non-free non-free-firmware" | tee /etc/apt/sources.list.d/deepin-sources.list
 dpkg --add-architecture loong64
+dpkg --add-architecture $GXDE_CROSS_ARCH
 apt update
 apt install -y wget xz-utils make gcc flex bison dpkg-dev bc rsync kmod cpio libssl-dev git vim libelf-dev sudo zstd
 apt build-dep -y linux
@@ -17,8 +18,11 @@ apt install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu binutils-riscv64-linu
     cpp-riscv64-linux-gnu
 apt install -y gcc-i686-linux-gnu g++-i686-linux-gnu binutils-i686-linux-gnu \
     cpp-i686-linux-gnu
+# 安装对应架构的 libssl-dev 包，否则编译内核时会提示找不到 openssl/sha.h 头文件
+apt install -y libssl-dev:$GXDE_CROSS_ARCH
 
 git clone https://github.com/GXDE-OS/kernel --depth=1 -b linux-6.18.y 
+
 
 cd kernel
 
@@ -33,15 +37,24 @@ rm -rf .git
 
 export DEBEMAIL="gfdgd xi <3025613752@qq.com>"
 
-GXDE_CROSS_ARCH=$(dpkg --print-architecture)
+if [[ $GXDE_CROSS_ARCH == "i386" ]]; then
+    make ARCH=arm64 CROSS_COMPILE=i686-linux-gnu- deepin_x86_desktop_defconfig
+fi
 if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
     make ARCH=x86 deepin_x86_desktop_defconfig
-else
-    if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
-        make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- deepin_arm64_desktop_defconfig
-    else
-        exit 0
-    fi
+fi
+if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
+    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- deepin_arm64_desktop_defconfig
+fi
+if [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
+    exit 0
+    #make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- loongson3_defconfig
+fi
+if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
+    make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
+fi
+if [[ $GXDE_CROSS_ARCH == "riscv64" ]]; then
+    make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- deepin_riscv64_desktop_defconfig
 fi
 
 scripts/config --set-str CONFIG_LOCALVERSION "-$GXDE_CROSS_ARCH-gxde-desktop"
