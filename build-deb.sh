@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # install dep
+chmod 1777 -Rv /tmp
 apt install deepin-keyring -y
 echo "deb [trusted=true] https://community-packages.deepin.com/deepin/beige/ crimson main community commercial" | tee /etc/apt/sources.list.d/deepin-sources.list
 echo "deb-src [trusted=true] http://ftp.us.debian.org/debian/ bookworm main contrib non-free non-free-firmware" | tee /etc/apt/sources.list.d/deepin-sources.list
