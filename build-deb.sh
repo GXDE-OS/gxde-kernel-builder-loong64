@@ -56,8 +56,7 @@ if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
     make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "riscv64" ]]; then
-     exit 0
-#    make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- deepin_riscv64_desktop_defconfig
+    make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- deepin_riscv64_desktop_defconfig
 fi
 
 scripts/config --set-str CONFIG_LOCALVERSION "-$GXDE_CROSS_ARCH-gxde-desktop"
