@@ -40,7 +40,7 @@ rm -rf .git
 export DEBEMAIL="gfdgd xi <3025613752@qq.com>"
 
 if [[ $GXDE_CROSS_ARCH == "i386" ]]; then
-    make ARCH=arm64 CROSS_COMPILE=i686-linux-gnu- deepin_x86_desktop_defconfig
+    make ARCH=x86 CROSS_COMPILE=i686-linux-gnu- 
 fi
 if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
     make ARCH=x86 deepin_x86_desktop_defconfig
@@ -79,7 +79,7 @@ scripts/config --undefine CONFIG_MODULE_SIG_KEY_TYPE_RSA
 CPU_CORES=$(($(grep -c processor < /proc/cpuinfo)*2))
 
 if [[ $GXDE_CROSS_ARCH == "i386" ]]; then
-    make ARCH=arm64 CROSS_COMPILE=i686-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+    make ARCH=x86 CROSS_COMPILE=i686-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
 fi
 if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
     make ARCH=x86 DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
