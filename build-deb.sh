@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+VERSION=6.6.134
 # install dep
 chmod 1777 -Rv /tmp
 apt install deepin-keyring -y
@@ -22,7 +23,7 @@ apt install -y gcc-i686-linux-gnu g++-i686-linux-gnu binutils-i686-linux-gnu \
 # 安装对应架构的 libssl-dev 包，否则编译内核时会提示找不到 openssl/sha.h 头文件
 apt install -y libssl-dev:$GXDE_CROSS_ARCH
 
-git clone https://github.com/GXDE-OS/kernel --depth=1 -b linux-6.6.y
+git clone https://github.com/GXDE-OS/kernel --depth=1 -b $VERSION
 
 cd kernel
 
