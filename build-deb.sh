@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-VERSION=6.18.23
+VERSION=6.12.74
 # install dep
 chmod 1777 -Rv /tmp
 apt install deepin-keyring -y
@@ -40,7 +40,7 @@ rm -rf .git
 export DEBEMAIL="gfdgd xi <3025613752@qq.com>"
 
 if [[ $GXDE_CROSS_ARCH == "i386" ]]; then
-    make ARCH=x86 CROSS_COMPILE=i686-linux-gnu- 
+    make ARCH=x86 CROSS_COMPILE=i686-linux-gnu- i386_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
     make ARCH=x86 deepin_x86_desktop_defconfig
