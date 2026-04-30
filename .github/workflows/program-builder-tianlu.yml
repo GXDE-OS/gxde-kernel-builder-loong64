@@ -3,9 +3,6 @@ run-name: Building ${{ GITHUB.REPOSITORY }} (Tianlu)
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "*"
 
 jobs:
   call:
