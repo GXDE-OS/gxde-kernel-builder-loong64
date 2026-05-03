@@ -21,7 +21,9 @@ apt install -y gcc-riscv64-linux-gnu g++-riscv64-linux-gnu binutils-riscv64-linu
 apt install -y gcc-i686-linux-gnu g++-i686-linux-gnu binutils-i686-linux-gnu \
     cpp-i686-linux-gnu
 # 安装对应架构的 libssl-dev 包，否则编译内核时会提示找不到 openssl/sha.h 头文件
-apt install -y libssl-dev:$GXDE_CROSS_ARCH
+apt install -y binfmt-support qemu-user-static
+apt install -y libssl-dev:$GXDE_CROSS_ARCH libc6:$GXDE_CROSS_ARCH libelf-dev:$GXDE_CROSS_ARCH libdw-dev:$GXDE_CROSS_ARCH
+apt install -y python3:$GXDE_CROSS_ARCH
 
 git clone https://github.com/GXDE-OS/kernel --depth=1 -b $VERSION
 
@@ -45,16 +47,16 @@ if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
     make ARCH=x86 deepin_x86_desktop_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
-    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- deepin_arm64_desktop_defconfig
+    make ARCH=arm64 HOSTCC=aarch64-linux-gnu-gcc HOSTLD=aarch64-linux-gnu-ld CROSS_COMPILE=aarch64-linux-gnu- deepin_arm64_desktop_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
-    make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- deepin_loongson3_desktop_defconfig
+    make ARCH=mips HOSTCC=mips64el-linux-gnuabi64-gcc HOSTLD=mips64el-linux-gnuabi64-ld CROSS_COMPILE=mips64el-linux-gnuabi64- deepin_loongson3_desktop_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
-    make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
+    make ARCH=loongarch HOSTCC=loongarch64-linux-gnu-gcc HOSTLD=loongarch64-linux-gnu-ld CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "riscv64" ]]; then
-    make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- deepin_riscv64_desktop_defconfig
+    make ARCH=riscv HOSTCC=riscv64-linux-gnu-gcc HOSTLD=riscv64-linux-gnu-ld CROSS_COMPILE=riscv64-linux-gnu- deepin_riscv64_desktop_defconfig
 fi
 
 scripts/config --set-str CONFIG_LOCALVERSION "-$GXDE_CROSS_ARCH-gxde-desktop"
@@ -86,10 +88,10 @@ if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
     make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
 fi
 if [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
-    make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+    
 fi
 if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
-    make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+    make ARCH=loongarch HOSTCC=loongarch64-linux-gnu-gcc HOSTLD=loongarch64-linux-gnu-ld  CROSS_COMPILE=loongarch64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
 fi
 if [[ $GXDE_CROSS_ARCH == "riscv64" ]]; then
     make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
