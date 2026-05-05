@@ -41,22 +41,22 @@ rm -rf .git
 export DEBEMAIL="gfdgd xi <3025613752@qq.com>"
 
 if [[ $GXDE_CROSS_ARCH == "i386" ]]; then
-    make ARCH=x86 CROSS_COMPILE=i686-linux-gnu- gxde_i386_desktop_defconfig
+    make ARCH=x86 CC=i686-linux-gnu-gcc HOSTCC=i686-linux-gnu-gcc HOSTLD=i686-linux-gnu-ld CROSS_COMPILE=i686-linux-gnu- gxde_i386_desktop_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
     make ARCH=x86 deepin_x86_desktop_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
-    make ARCH=arm64 HOSTCC=aarch64-linux-gnu-gcc HOSTLD=aarch64-linux-gnu-ld CROSS_COMPILE=aarch64-linux-gnu- deepin_arm64_desktop_defconfig
+    make ARCH=arm64 CC=aarch64-linux-gnu-gcc HOSTCC=aarch64-linux-gnu-gcc HOSTLD=aarch64-linux-gnu-ld CROSS_COMPILE=aarch64-linux-gnu- deepin_arm64_desktop_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
-    make ARCH=mips HOSTCC=mips64el-linux-gnuabi64-gcc HOSTLD=mips64el-linux-gnuabi64-ld CROSS_COMPILE=mips64el-linux-gnuabi64- deepin_loongson3_desktop_defconfig
+    make ARCH=mips CC=mips64el-linux-gnuabi64-gcc HOSTCC=mips64el-linux-gnuabi64-gcc HOSTLD=mips64el-linux-gnuabi64-ld CROSS_COMPILE=mips64el-linux-gnuabi64- deepin_loongson3_desktop_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
-    make ARCH=loongarch HOSTCC=loongarch64-linux-gnu-gcc HOSTLD=loongarch64-linux-gnu-ld CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
+    make ARCH=loongarch CC=loongarch64-linux-gnu-gcc HOSTCC=loongarch64-linux-gnu-gcc HOSTLD=loongarch64-linux-gnu-ld CROSS_COMPILE=loongarch64-linux-gnu- deepin_loongarch_desktop_defconfig
 fi
 if [[ $GXDE_CROSS_ARCH == "riscv64" ]]; then
-    make ARCH=riscv HOSTCC=riscv64-linux-gnu-gcc HOSTLD=riscv64-linux-gnu-ld CROSS_COMPILE=riscv64-linux-gnu- deepin_riscv64_desktop_defconfig
+    make ARCH=riscv CC=riscv64-linux-gnu-gcc HOSTCC=riscv64-linux-gnu-gcc HOSTLD=riscv64-linux-gnu-ld CROSS_COMPILE=riscv64-linux-gnu- deepin_riscv64_desktop_defconfig
 fi
 
 scripts/config --set-str CONFIG_LOCALVERSION "-$GXDE_CROSS_ARCH-gxde-desktop"
@@ -79,22 +79,22 @@ scripts/config --undefine CONFIG_MODULE_SIG_KEY_TYPE_RSA
 CPU_CORES=$(($(grep -c processor < /proc/cpuinfo)*2))
 
 if [[ $GXDE_CROSS_ARCH == "i386" ]]; then
-    make ARCH=x86 CROSS_COMPILE=i686-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+    make ARCH=x86 CC=i686-linux-gnu-gcc HOSTCC=i686-linux-gnu-gcc HOSTLD=i686-linux-gnu-ld CROSS_COMPILE=i686-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
 fi
 if [[ $GXDE_CROSS_ARCH == "amd64" ]]; then
     make ARCH=x86 DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
 fi
 if [[ $GXDE_CROSS_ARCH == "arm64" ]]; then
-    make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+    make ARCH=arm64 CC=aarch64-linux-gnu-gcc HOSTCC=aarch64-linux-gnu-gcc HOSTLD=aarch64-linux-gnu-ld CROSS_COMPILE=aarch64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
 fi
 if [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
-    
+    make ARCH=mips CC=mips64el-linux-gnuabi64-gcc HOSTCC=mips64el-linux-gnuabi64-gcc HOSTLD=mips64el-linux-gnuabi64-ld CROSS_COMPILE=mips64el-linux-gnuabi64-  DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
 fi
 if [[ $GXDE_CROSS_ARCH == "loong64" ]]; then
-    make ARCH=loongarch HOSTCC=loongarch64-linux-gnu-gcc HOSTLD=loongarch64-linux-gnu-ld  CROSS_COMPILE=loongarch64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+    make ARCH=loongarch CC=loongarch64-linux-gnu-gcc HOSTCC=loongarch64-linux-gnu-gcc HOSTLD=loongarch64-linux-gnu-ld CROSS_COMPILE=loongarch64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
 fi
 if [[ $GXDE_CROSS_ARCH == "riscv64" ]]; then
-    make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+    make ARCH=riscv CC=riscv64-linux-gnu-gcc HOSTCC=riscv64-linux-gnu-gcc HOSTLD=riscv64-linux-gnu-ld CROSS_COMPILE=riscv64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
 fi
 
 # 再重新编译个 4k pagesize 内核（mips, loongarch）
@@ -108,12 +108,12 @@ if [[ $GXDE_CROSS_ARCH == "loong64" ]] || [[ $GXDE_CROSS_ARCH == "mips64el" ]]; 
         scripts/config --set-val CONFIG_HAVE_PAGE_SIZE_4KB y
         scripts/config --set-val CONFIG_PAGE_SIZE_4KB y
         scripts/config --set-val CONFIG_4KB_3LEVEL y
-        make ARCH=loongarch CROSS_COMPILE=loongarch64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+        make ARCH=loongarch CC=loongarch64-linux-gnu-gcc HOSTCC=loongarch64-linux-gnu-gcc HOSTLD=loongarch64-linux-gnu-ld CROSS_COMPILE=loongarch64-linux-gnu- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
     fi
     if [[ $GXDE_CROSS_ARCH == "mips64el" ]]; then
         scripts/config --set-val CONFIG_PAGE_SIZE_4KB y
         scripts/config --undefine CONFIG_PAGE_SIZE_16KB
-        make ARCH=mips CROSS_COMPILE=mips64el-linux-gnuabi64- DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
+        make ARCH=mips CC=mips64el-linux-gnuabi64-gcc HOSTCC=mips64el-linux-gnuabi64-gcc HOSTLD=mips64el-linux-gnuabi64-ld CROSS_COMPILE=mips64el-linux-gnuabi64-  DPKG_FLAGS=-d bindeb-pkg -j"$CPU_CORES"
     fi
 fi
 
