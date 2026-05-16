@@ -120,5 +120,5 @@ if [[ $GXDE_CROSS_ARCH == "loong64" ]] || [[ $GXDE_CROSS_ARCH == "mips64el" ]]; 
 fi
 
 cd ..
-rm -rf linux-libc-dev*.deb *dbg*.deb
+
 mv *.deb ..
