@@ -22,6 +22,8 @@ apt install -y gcc-i686-linux-gnu g++-i686-linux-gnu binutils-i686-linux-gnu \
     cpp-i686-linux-gnu
 # 安装对应架构的 libssl-dev 包，否则编译内核时会提示找不到 openssl/sha.h 头文件
 apt install -y binfmt-support qemu-user-static
+apt install -y linux-libc-dev:all
+apt install -y linux-libc-dev:$GXDE_CROSS_ARCH
 apt install -y libssl-dev:$GXDE_CROSS_ARCH libc6:$GXDE_CROSS_ARCH libelf-dev:$GXDE_CROSS_ARCH libdw-dev:$GXDE_CROSS_ARCH
 apt install -y python3:$GXDE_CROSS_ARCH
 
