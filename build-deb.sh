@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-VERSION="6.6.138"
+VERSION="6.6.138gxde1"
 # install dep
 chmod 1777 -Rv /tmp
 apt install deepin-keyring -y
@@ -31,11 +31,8 @@ git clone https://github.com/GXDE-OS/kernel --depth=1 -b $VERSION
 
 cd kernel
 
-# 检测 build-version 脚本是否存在
-if [[ ! -f init/build-version ]]; then
-    cp ../build-version init -rv
-    chmod +x init/build-version
-fi
+cp ../build-version init -rv
+chmod +x init/build-version
 
 # 删除 .git 目录以避免版本号带 commit
 rm -rf .git
