@@ -121,4 +121,5 @@ fi
 
 cd ..
 
+rm -rfv linux-libc-dev_*.deb
 mv *.deb ..
