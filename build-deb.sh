@@ -33,8 +33,8 @@ git clone https://github.com/GXDE-OS/kernel --depth=1 -b $VERSION
 cd kernel
 
 # 拷贝 build-version 脚本
-cp ../build-version init -rv
-chmod +x init/build-version
+cp ../build-version scripts/ -rv
+chmod +x scripts/build-version
 
 # 删除 .git 目录以避免版本号带 commit
 rm -rf .git
