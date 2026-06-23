@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-VERSION="6.6.142gxde1"
+VERSION="6.6.143"
 # install dep
 chmod 1777 -Rv /tmp
 apt install deepin-keyring -y
